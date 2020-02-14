@@ -1,0 +1,61 @@
+apiVersion: eventing.knative.dev/v1alpha1
+kind: Trigger
+metadata:
+  name: on-tempc-change-notifier-websocket-trigger
+spec:
+  broker: class-a
+  filter:
+    attributes:
+      type: SubjectPropertyChanged
+      propertyname: tempc
+  subscriber:
+    ref:
+      apiVersion: serving.knative.dev/v1alpha1
+      kind: Service
+      name: on-temp-status-change-notifier-websocket
+---
+apiVersion: eventing.knative.dev/v1alpha1
+kind: Trigger
+metadata:
+  name: on-temp-status-back-to-normal-notifier-websocket-trigger
+spec:
+  broker: class-a
+  filter:
+    attributes:
+      type: temp-status-back-to-normal
+  subscriber:
+    ref:
+      apiVersion: serving.knative.dev/v1alpha1
+      kind: Service
+      name: on-temp-status-change-notifier-websocket
+---
+apiVersion: eventing.knative.dev/v1alpha1
+kind: Trigger
+metadata:
+  name: on-temp-status-bad-notifier-websocket-trigger
+spec:
+  broker: class-a
+  filter:
+    attributes:
+      type: temp-status-bad
+  subscriber:
+    ref:
+      apiVersion: serving.knative.dev/v1alpha1
+      kind: Service
+      name: on-temp-status-change-notifier-websocket
+---
+apiVersion: eventing.knative.dev/v1alpha1
+kind: Trigger
+metadata:
+  name: on-temp-status-still-bad-notifier-websocket-trigger
+spec:
+  broker: class-a
+  filter:
+    attributes:
+      type: temp-status-still-bad
+  subscriber:
+    ref:
+      apiVersion: serving.knative.dev/v1alpha1
+      kind: Service
+      name: on-temp-status-change-notifier-websocket
+---

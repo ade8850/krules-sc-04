@@ -1,0 +1,4 @@
+locustio
+redis
+requests
+google-cloud-pubsub

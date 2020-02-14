@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>WebSocket demo</title>
+    </head>
+    <body>
+        <script>
+            //var ws = new WebSocket("ws://35.227.219.5/ws"),
+            var ws = new WebSocket("ws://localhost:5678/ws"),
+                messages = document.createElement('ul');
+            ws.onmessage = function (event) {
+                console.log(message)
+                var messages = document.getElementsByTagName('ul')[0],
+                    message = document.createElement('li'),
+                    content = document.createTextNode(event.data);
+                message.appendChild(content);
+                messages.appendChild(message);
+            };
+            document.body.appendChild(messages);
+        </script>
+    </body>
+</html>

@@ -1,0 +1,45 @@
+apiVersion: eventing.knative.dev/v1alpha1
+kind: Trigger
+metadata:
+  name: on-temp-status-back-to-normal-notifier-slack-trigger
+spec:
+  broker: class-a
+  filter:
+    attributes:
+      type: temp-status-back-to-normal
+  subscriber:
+    ref:
+      apiVersion: serving.knative.dev/v1alpha1
+      kind: Service
+      name: on-temp-status-change-notifier-slack
+---
+apiVersion: eventing.knative.dev/v1alpha1
+kind: Trigger
+metadata:
+  name: on-temp-status-bad-notifier-slack-trigger
+spec:
+  broker: class-a
+  filter:
+    attributes:
+      type: temp-status-bad
+  subscriber:
+    ref:
+      apiVersion: serving.knative.dev/v1alpha1
+      kind: Service
+      name: on-temp-status-change-notifier-slack
+---
+apiVersion: eventing.knative.dev/v1alpha1
+kind: Trigger
+metadata:
+  name: on-temp-status-still-bad-notifier-slack-trigger
+spec:
+  broker: class-a
+  filter:
+    attributes:
+      type: temp-status-still-bad
+  subscriber:
+    ref:
+      apiVersion: serving.knative.dev/v1alpha1
+      kind: Service
+      name: on-temp-status-change-notifier-slack
+---

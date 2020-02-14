@@ -1,0 +1,47 @@
+apiVersion: eventing.knative.dev/v1alpha1
+kind: Trigger
+metadata:
+  name: on-location-change-notifier-postextapi-trigger
+spec:
+  broker: class-b
+  filter:
+    attributes:
+      type: SubjectPropertyChanged
+      propertyname: location
+  subscriber:
+    ref:
+      apiVersion: serving.knative.dev/v1alpha1
+      kind: Service
+      name: on-location-change-notifier-postextapi
+---
+apiVersion: eventing.knative.dev/v1alpha1
+kind: Trigger
+metadata:
+  name: on-location-change-notifier-postextapi-error-trigger
+spec:
+  broker: class-b
+  filter:
+    attributes:
+      type: on-location-change-notifier-postextapi-errors
+  subscriber:
+    ref:
+      apiVersion: serving.knative.dev/v1alpha1
+      kind: Service
+      name: on-location-change-notifier-postextapi
+---
+apiVersion: eventing.knative.dev/v1alpha1
+kind: Trigger
+metadata:
+  name: scheduled-do-extapi-post-trigger
+spec:
+  broker: class-b
+  filter:
+    attributes:
+      type: do-extapi-post
+  subscriber:
+    ref:
+      apiVersion: serving.knative.dev/v1alpha1
+      kind: Service
+      name: on-location-change-notifier-postextapi
+---
+

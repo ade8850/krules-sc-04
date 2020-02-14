@@ -1,0 +1,54 @@
+apiVersion: serving.knative.dev/v1alpha1
+kind: Service
+metadata:
+  name: on-location-change-notifier-postextapi
+spec:
+  template:
+    metadata:
+      annotations:
+        autoscaling.knative.dev/minScale: "1"
+    spec:
+      containers:
+        - image: eu.gcr.io/krules-dev-254113/dev-01-apps-on-location-change-notifier-postextapi:0.1.38
+          env:
+           - name: GOOGLE_APPLICATION_CREDENTIALS
+             value: /var/secrets/google/key.json
+           - name: MATTERMOST_CHANNEL_URL
+             valueFrom:
+               configMapKeyRef:
+                 name: config-notifications
+                 key: mattermost.device_status_change.url
+           - name: WEBSOCKET_DEVICES_NOTIFICATION_RKEY
+             value: "websocket-devices-notification"
+           - name: REDIS_PUBSUB_ADDRESS
+             valueFrom:
+               secretKeyRef:
+                 name: redis-pubsub-address
+                 key: url
+           - name: EXTAPI_X_API_KEY
+             valueFrom:
+               secretKeyRef:
+                 name: extapi-server
+                 key: api-key
+           - name: EXTAPI_URL
+             valueFrom:
+               configmapKeyRef:
+                 name: extapi-server
+                 key: url
+
+          volumeMounts:
+            - name: config-krules-volume
+              mountPath: /krules/config
+            - name: google-cloud-key
+              mountPath: /var/secrets/google
+
+      volumes:
+        - name: config-krules-volume
+          configMap:
+            name: config-krules
+        - name: google-cloud-key
+          secret:
+            secretName: google-cloud-key
+
+---
+

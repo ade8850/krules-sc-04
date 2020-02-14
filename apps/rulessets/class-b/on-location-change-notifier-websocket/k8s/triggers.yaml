@@ -1,0 +1,33 @@
+apiVersion: eventing.knative.dev/v1alpha1
+kind: Trigger
+metadata:
+  name: on-coords-change-notifier-websocket-trigger
+spec:
+  broker: class-b
+  filter:
+    attributes:
+      type: SubjectPropertyChanged
+      propertyname: coords
+  subscriber:
+    ref:
+      apiVersion: serving.knative.dev/v1alpha1
+      kind: Service
+      name: on-location-change-notifier-websocket
+---
+apiVersion: eventing.knative.dev/v1alpha1
+kind: Trigger
+metadata:
+  name: on-location-change-notifier-websocket-trigger
+spec:
+  broker: class-b
+  filter:
+    attributes:
+      type: SubjectPropertyChanged
+      propertyname: location
+  subscriber:
+    ref:
+      apiVersion: serving.knative.dev/v1alpha1
+      kind: Service
+      name: on-location-change-notifier-websocket
+---
+

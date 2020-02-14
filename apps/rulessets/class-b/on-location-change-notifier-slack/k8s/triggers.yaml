@@ -1,0 +1,18 @@
+apiVersion: eventing.knative.dev/v1alpha1
+apiVersion: eventing.knative.dev/v1alpha1
+kind: Trigger
+metadata:
+  name: on-location-change-notifier-slack-trigger
+spec:
+  broker: class-b
+  filter:
+    attributes:
+      type: SubjectPropertyChanged
+      propertyname: location
+  subscriber:
+    ref:
+      apiVersion: serving.knative.dev/v1alpha1
+      kind: Service
+      name: on-location-change-notifier-slack
+---
+

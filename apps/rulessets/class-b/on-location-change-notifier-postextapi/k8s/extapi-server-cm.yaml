@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: extapi-server
+data:
+  url: https://europe-west3-krules-dev-254113.cloudfunctions.net/store_devices_location
+---
